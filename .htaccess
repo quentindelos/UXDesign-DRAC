@@ -10,7 +10,6 @@ RewriteRule ^(.*)$ $1.html [NC,L]
 
 RewriteEngine On
 RewriteCond %{HTTPS} off
-<<<<<<< HEAD
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
 <Files "nav_bar.php">
@@ -22,6 +21,3 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 <Files "historique.php">
     Deny from all
 </Files>
-=======
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
->>>>>>> ee0918acc3434e50f28363a42ee2ced10e243e39
