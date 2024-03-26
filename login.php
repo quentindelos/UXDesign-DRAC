@@ -1,10 +1,10 @@
 <?php
 //TRUNCATE TABLE `interfaceihm`.`auth`;
-//INSERT INTO `interfaceihm`.`auth` (name, password) VALUES ('admin', 'd033e22ae348aeb5660fc2140aec35850c4da997');
+// INSERT INTO `interfaceihm`.`auth` (name, password) VALUES ('admin', 'd033e22ae348aeb5660fc2140aec35850c4da997');
 
 session_start();
 if(isset($_SESSION["name"])){
-    header("Location: index");
+    header("Location: .");
 exit(); 
 }
 
@@ -12,7 +12,7 @@ if(!isset($_SESSION["name"])){
     require ('src/includes/accessDB.php');
 
     //PDO
-    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+    $dsn = "mysql:host=$host;dbname=$dbIHM;charset=utf8mb4";
 
     //DB -> PDO
     try {
@@ -35,7 +35,7 @@ if(!isset($_SESSION["name"])){
                 $_SESSION['name'] = $user['name'];                    
                 $_SESSION['password'] = $password;
                 $_SESSION['id_membre'] = $user['id_membre'];
-                header('Location: index'); 
+                header('Location: .'); 
             } else {
                 echo "<script type='text/javascript'>alert('Les identifiants que tu as mis ne sont pas corrects.');</script>";
             }
@@ -61,7 +61,7 @@ if(!isset($_SESSION["name"])){
                                 $_SESSION['name'] = $name;
                                 $_SESSION['password'] = $password;
                                 $_SESSION['id_membre'] = $recupUser->fetch()['id_membre'];
-                                header('Location: index');
+                                header('Location: .');
                             }
                         } else {
                             echo "<script type='text/javascript'>alert('Les mots de passe ne correspondent pas.');</script>";

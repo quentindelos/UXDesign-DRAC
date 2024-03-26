@@ -31,6 +31,5 @@ if(isset($_POST['logout'])){
     <?php include 'src/includes/nav-bar.php'; ?>
     <?php include 'src/includes/historique.php'; ?>
     <?php include 'src/includes/sensors.php'; ?>
-
 </body>
 </html>

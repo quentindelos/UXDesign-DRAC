@@ -1,6 +1,6 @@
 <?php
 require ('accessDB.php');
-$conn = new mysqli($host, $username, $password, $dbname);
+$conn = new mysqli($host, $username, $password, $dbLora);
 
 // Récupérer la dernière valeur de température
 $temperature = "SELECT value FROM loratabletemperature ORDER BY id DESC LIMIT 1";
@@ -13,7 +13,7 @@ if ($result->num_rows > 0) {
 }
 
 // Récupérer la dernière valeur d'humidité
-$humidity = "SELECT value FROM loratablehumidity ORDER BY id DESC LIMIT 1";
+$humidity = "SELECT value FROM loratablehumidite ORDER BY id DESC LIMIT 1";
 $result = $conn->query($humidity);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
 }
 
 // Récupérer la dernière valeur de CO2
-$co2 = "SELECT value FROM loratableco2 ORDER BY id DESC LIMIT 1";
+$co2 = "SELECT value FROM loratableCO2 ORDER BY id DESC LIMIT 1";
 $result = $conn->query($co2);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();

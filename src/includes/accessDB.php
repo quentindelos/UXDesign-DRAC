@@ -2,5 +2,6 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "interfaceihm";
+$dbIHM = "interfaceIHM";
+$dbLora = "lora";
 ?>

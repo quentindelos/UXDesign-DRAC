@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'Trip Sans';
-    src: url('/src/styles/font/TripSans-Medium.eot');
+    src: url('font/TripSans-Medium.eot');
     src: local('Trip Sans Medium'), local('TripSans-Medium'),
-        url('/src/styles/font/TripSans-Medium.eot?#iefix') format('embedded-opentype'),
-        url('/src/styles/font/TripSans-Medium.woff2') format('woff2'),
-        url('/src/styles/font/TripSans-Medium.woff') format('woff'),
-        url('/src/styles/font/TripSans-Medium.ttf') format('truetype');
+        url('font/TripSans-Medium.eot?#iefix') format('embedded-opentype'),
+        url('font/TripSans-Medium.woff2') format('woff2'),
+        url('font/TripSans-Medium.woff') format('woff'),
+        url('font/TripSans-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;

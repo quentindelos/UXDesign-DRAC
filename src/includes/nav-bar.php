@@ -12,7 +12,7 @@
         <h2><u>Services</u></h2>
             <p onclick="opentab('sensors')">Capteurs</p>
             <p onclick="opentab('historique')">Historique</p>
-            <a href="http://143.126.159.217/nagios/" target="_blank">Nagios</a>
+            <a href="http://192.168.112.12/nagios/" target="_blank">Nagios</a>
     </nav>
     <div class="footer">
         <form method='POST'>
