@@ -21,3 +21,6 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 <Files "historique.php">
     Deny from all
 </Files>
+<Files "accessDB.php">
+    Deny from all
+</Files>
