@@ -9,7 +9,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #2e2e2e;
+    background: #837c7c;
     transition: .5s;
 }
 .box{
@@ -17,7 +17,7 @@ body{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #3d3f4481;
+    background-color: #a7a8aa81;
 }
 /* ------------------ Responsive parts ------------------ */
 @media only screen and (max-width:600px){
