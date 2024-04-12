@@ -1,3 +1,9 @@
+<?php
+    $PDO = new PDO("mysql:host=$host;dbname=$BD_Drac", $username, $password);
+    $data = "SELECT value FROM CAPTEUR ORDER BY ID_CAPTEUR DESC LIMIT 1";
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr_FR">
 <head>

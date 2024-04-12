@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/styles/index.css">
 </head>
 <body>
     <div class="header">
@@ -11,7 +12,9 @@
     <nav class="side-nav">
         <h2><u>Services</u></h2>
             <p onclick="opentab('sensors')">Capteurs</p>
-            <p onclick="opentab('historique')">Historique</p>
+            <p onclick="opentab('graph')">Graphique</p>
+            <a href="manager">Manager</a>
+        <br>
             <a href="http://192.168.112.12/nagios/" target="_blank">Nagios</a>
     </nav>
     <div class="footer">

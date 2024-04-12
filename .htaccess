@@ -15,9 +15,6 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 <Files "nav_bar.php">
     Deny from all
 </Files>
-<Files "sensors.php">
-    Deny from all
-</Files>
 <Files "historique.php">
     Deny from all
 </Files>

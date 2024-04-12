@@ -1,77 +1,43 @@
 <?php
-//TRUNCATE TABLE `interfaceihm`.`auth`;
-// INSERT INTO `interfaceihm`.`auth` (name, password) VALUES ('admin', 'd033e22ae348aeb5660fc2140aec35850c4da997');
-
 session_start();
-if(isset($_SESSION["name"])){
+
+// Si l'utilisateur est déjà connecté, le rediriger vers la page principale
+if(isset($_SESSION["LOGIN"])){
     header("Location: .");
-exit(); 
+    exit(); 
 }
 
-if(!isset($_SESSION["name"])){
+if(!isset($_SESSION["LOGIN"])){
     require ('src/includes/accessDB.php');
 
-    //PDO
-    $dsn = "mysql:host=$host;dbname=$dbIHM;charset=utf8mb4";
-
-    //DB -> PDO
+    $dsn = "mysql:host=$host;dbname=$DB_Drac;charset=utf8mb4";
     try {
         $bdd = new PDO($dsn, $username, $password);
     } catch (PDOException $e) {
         echo "Erreur de connexion à la base de données : " . $e->getMessage();
     }
 
-    //Login
-    if(isset($_POST['submit_login'])){
-        if(!empty($_POST['name']) && !empty($_POST['password'])){
-            $name = htmlspecialchars($_POST['name']);
-            $password = sha1($_POST['password']);
+    // Login
+    if(isset($_POST['submit'])){
+        if(!empty($_POST['LOGIN']) && !empty($_POST['PASSWORD'])){
+            $LOGIN = htmlspecialchars($_POST['LOGIN']);
+            $PASSWORD = $_POST['PASSWORD'];
         
-            $recupUser = $bdd->prepare('SELECT * FROM auth WHERE name = :name AND password = :password');
-            $recupUser->execute(array(':name' => $name, ':password' => $password));
-
+            $recupUser = $bdd->prepare('SELECT * FROM USER WHERE LOGIN = :LOGIN');
+            $recupUser->execute(array(':LOGIN' => $LOGIN));
             $user = $recupUser->fetch();
-            if($user){
-                $_SESSION['name'] = $user['name'];                    
-                $_SESSION['password'] = $password;
-                $_SESSION['id_membre'] = $user['id_membre'];
-                header('Location: .'); 
-            } else {
-                echo "<script type='text/javascript'>alert('Les identifiants que tu as mis ne sont pas corrects.');</script>";
-            }
-        }
-    }
 
-    //Register
-    if(isset($_POST['submit_register'])){
-        if(!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['confirm_password'])){
-            $name = htmlspecialchars($_POST['name']);
-            $checkname = $bdd->query("SELECT * FROM auth WHERE name='$name'");
-            $result = $checkname->fetch();
-                if (!$result) {
-                    if ($_POST["password"] === $_POST["confirm_password"]){
-                        $password = sha1($_POST['password']);
-                        $insertUser = $bdd->prepare('INSERT INTO auth(name, password)VALUES(?, ?)');
-                        $insertUser->execute(array($name, $password));
-    
-                        $recupUser = $bdd->prepare('SELECT * FROM auth WHERE name = ? AND password = ?');
-                        $recupUser->execute(array($name, $password));
-    
-                            if($recupUser->rowCount() > 0){
-                                $_SESSION['name'] = $name;
-                                $_SESSION['password'] = $password;
-                                $_SESSION['id_membre'] = $recupUser->fetch()['id_membre'];
-                                header('Location: .');
-                            }
-                        } else {
-                            echo "<script type='text/javascript'>alert('Les mots de passe ne correspondent pas.');</script>";
-                        }
-                }
+            if($user && password_verify($PASSWORD, $user['PASSWORD'])){
+                $_SESSION['LOGIN'] = $user['LOGIN'];                    
+                header('Location: .');
+                exit();
+            } else {
+                echo "<script type='text/javascript'>alert('Les identifiants que tu as saisis ne sont pas corrects.');</script>";
+            }
         }
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr_FR">
@@ -85,18 +51,16 @@ if(!isset($_SESSION["name"])){
 <body>
     <div class="box">
         <form method="POST">
-            <h1>Login</h1>
-            <input type="text" name="name" placeholder="login" required>
-            <input type="password" name="password" placeholder="password" required>
-            <input type="submit" name="submit_login" value="Login">
+            <label>Identifiant (prénom.nom) :</label>
+            <br>
+            <input type="text" name="LOGIN">
+            <br>
+            <label>Mot de passe:</label>
+            <br>
+            <input type="password" name="PASSWORD">
+            <br><br>
+            <input type="submit" name="submit" value="Se connecter">
         </form>
-        <!-- <form method="POST">
-            <h2>Inscription</h2>
-            <input type="text" name="name" placeholder="Pseudo" required>
-            <input type="password" name="password" placeholder="password" required>
-            <input type="password" name="confirm_password" placeholder="Confirm password" required>
-            <input type="submit" name="submit_register" value="Register">
-        </form> -->
     </div>
 </body>
 </html>
