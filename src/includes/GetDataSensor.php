@@ -13,12 +13,11 @@ try {
     // Récupérer la dernière valeur de CO2
     $RecupCO2 = $pdo->query("SELECT MESURE FROM CAPTEUR WHERE ID_TYPE_CAPTEUR = 'C' ORDER BY ID_CAPTEUR DESC LIMIT 1")->fetchColumn();
 
-    $values =  $RecupTemperature . ',' . $RecupHumidity . ',' . $RecupCO2;
+    $values =  $RecupTemperature . ',' . $RecupHumidity . ',' . $RecupCO2 . ',';
 
     echo $values;
 
-    // Fermer la connexion à la base de données
-    $pdo = null;
+
 } catch (PDOException $e) {
     // En cas d'erreur de connexion
     echo "Erreur de connexion : " . $e->getMessage();
@@ -28,23 +27,24 @@ try {
 ?>
 
 
-<!-- <!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="FR_fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../scripts/sensors.js"></script>
-    <script src="../styles/index.css"></script>
+    <script src="/ProjetFinal_SNIR/src/scripts/sensors.js"></script>
+    <script src="/ProjetFinal_SNIR/src/styles/index.css"></script>
+    
 </head>
 <body>
     <div class="sensors">
         <h2>Capteurs</h1>
         <p><u>Affiche toutes les valeurs des capteurs</u></p>
-        <br>
+      
         <p id="temperature"></p>
         <p id="humidity"></p>
         <p id="CO2"></p>
     </div>
 </body>
-</html> -->
+</html>
