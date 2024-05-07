@@ -1,9 +1,3 @@
-<?php
-    $PDO = new PDO("mysql:host=$host;dbname=$BD_Drac", $username, $password);
-    $data = "SELECT value FROM CAPTEUR ORDER BY ID_CAPTEUR DESC LIMIT 1";
-?>
-
-
 <!DOCTYPE html>
 <html lang="fr_FR">
 <head>
@@ -30,8 +24,7 @@
                     }
                 }
             };
-            xhr.open('GET', true);
-            xhr.send();
+           
         }
 
         setInterval(updateChart, 2000);
@@ -82,62 +75,64 @@
         });
     </script>
 
-    <?php
-        require ('accessDB.php');
-        $conn = new mysqli($servername, $username, $password, $dbLora);
+<?php
+require('accessDB.php');
 
-        // Vérifier la connexion
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+try {
+    // Connexion à la base de données avec PDO
+    $dsn = "mysql:host=$host;dbname=$DB_Drac;charset=utf8mb4";
+    $pdo = new PDO($dsn, $username, $password);
+
+    // Configuration de PDO pour afficher les exceptions en cas d'erreur
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Récupérer les données de la table loratabletemperature
+    $sql_temperature = "SELECT * FROM `CAPTEUR` WHERE ID_TYPE_CAPTEUR = 'T' ORDER BY ID_CAPTEUR";
+    $stmt_temperature = $pdo->query($sql_temperature);
+    $temperature_data = array('TIME' => array(), 'MESURE' => array());
+
+    // Récupérer les données de la table loratablehumidite
+    $sql_humidity = "SELECT * FROM `CAPTEUR` WHERE ID_TYPE_CAPTEUR = 'H' ORDER BY ID_CAPTEUR";
+    $stmt_humidity = $pdo->query($sql_humidity);
+    $humidity_data = array('TIME' => array(), 'MESURE' => array());
+
+    // Récupérer les données de la table loratableco2
+    $sql_co2 = "SELECT * FROM `CAPTEUR` WHERE ID_TYPE_CAPTEUR = 'C' ORDER BY ID_CAPTEUR";
+    $stmt_co2 = $pdo->query($sql_co2);
+    $co2_data = array('TIME' => array(), 'MESURE' => array());
+
+    // Parcourir les résultats et les ajouter aux tableaux de données respectifs
+    function fetch_data($stmt, &$data) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $data['TIME'][] = $row['TIME'];
+            $data['MESURE'][] = $row['MESURE'];
         }
+    }
 
-        // Récupérer les données de la table loratabletemperature
-        $sql_temperature = "SELECT * FROM loratabletemperature";
-        $result_temperature = $conn->query($sql_temperature);
-        $temperature_data = array('time' => array(), 'value' => array());
+    fetch_data($stmt_temperature, $temperature_data);
+    fetch_data($stmt_humidity, $humidity_data);
+    fetch_data($stmt_co2, $co2_data);
 
-        // Récupérer les données de la table loratablehumidite
-        $sql_humidity = "SELECT * FROM loratablehumidite";
-        $result_humidity = $conn->query($sql_humidity);
-        $humidity_data = array('time' => array(), 'value' => array());
+    // Renvoyer les données au format JSON
+    echo "<script>";
+    echo "var data = {";
+    echo "'labels': " . json_encode($temperature_data['TIME']) . ",";
+    echo "'temperature': " . json_encode($temperature_data['MESURE']) . ",";
+    echo "'humidity': " . json_encode($humidity_data['MESURE']) . ",";
+    echo "'co2': " . json_encode($co2_data['MESURE']);
+    echo "};";
+    echo "chart.data.labels = data.labels;";
+    echo "chart.data.datasets[0].data = data.temperature;";
+    echo "chart.data.datasets[1].data = data.humidity;";
+    echo "chart.data.datasets[2].data = data.co2;";
+    echo "chart.update();";
+    echo "</script>";
 
-        // Récupérer les données de la table loratableco2
-        $sql_co2 = "SELECT * FROM loratableCO2";
-        $result_co2 = $conn->query($sql_co2);
-        $co2_data = array('time' => array(), 'value' => array());
-
-        // Parcourir les résultats et les ajouter aux tableaux de données respectifs
-        function fetch_data($result, &$data) {
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    array_push($data['time'], $row['time']);
-                    array_push($data['value'], $row['value']);
-                }
-            }
-        }
-
-        fetch_data($result_temperature, $temperature_data);
-        fetch_data($result_humidity, $humidity_data);
-        fetch_data($result_co2, $co2_data);
-
-        // Fermer la connexion à la base de données
-        $conn->close();
-
-        // Renvoyer les données au format JSON
-        echo "<script>";
-        echo "var data = {";
-        echo "'labels': " . json_encode($temperature_data['time']) . ",";
-        echo "'temperature': " . json_encode($temperature_data['value']) . ",";
-        echo "'humidity': " . json_encode($humidity_data['value']) . ",";
-        echo "'co2': " . json_encode($co2_data['value']);
-        echo "};";
-        echo "chart.data.labels = data.labels;";
-        echo "chart.data.datasets[0].data = data.temperature;";
-        echo "chart.data.datasets[1].data = data.humidity;";
-        echo "chart.data.datasets[2].data = data.co2;";
-        echo "chart.update();";
-        echo "</script>";
-    ?>
+} catch (PDOException $e) {
+    // En cas d'erreur de connexion
+    echo "Erreur de connexion : " . $e->getMessage();
+}
+?>
 
 </body>
 </html>
