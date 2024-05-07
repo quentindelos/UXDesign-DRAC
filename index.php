@@ -26,5 +26,7 @@ if(isset($_POST['logout'])){
 <body>
     <?php include 'src/includes/nav-bar.php'; ?> 
     <?php include 'src/includes/data.html'; ?>
+    <?php include 'src/includes/graph.php'; ?>
+    <?php include 'manager.php'; ?>
 </body>
 </html>
