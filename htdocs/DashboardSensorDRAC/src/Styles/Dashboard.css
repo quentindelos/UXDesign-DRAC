@@ -1,0 +1,103 @@
+/* Style pour le conteneur principal des jauges */
+.gauge-container {
+    display: flex;
+    justify-content: center; /* Centrer le contenu horizontalement */
+    flex-wrap: wrap; /* Permettre aux éléments de se répartir sur plusieurs lignes si nécessaire */
+    transition: background-color 0.3s, color 0.3s; /* Ajout de transition pour un effet plus fluide */
+    padding: 20px;
+}
+
+/* Style pour centrer le contenu */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Permettre aux éléments de se répartir sur plusieurs lignes si nécessaire */
+    width: 100%;
+}
+
+/* Style pour les divs des jauges */
+.gauge-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    flex: 1 1 100%; /* Permettre aux jauges de prendre une place égale et s'étirer */
+    max-width: 45%; /* Limiter la largeur maximale à 45% */
+  
+    padding: 20px; /* Augmenter le padding pour une meilleure apparence */
+    transition: background-color 0.3s, color 0.3s; /* Ajout de transition pour un effet plus fluide */
+}
+
+/* Style pour les titres des jauges */
+.gauge-title {
+    font-size: 32px; /* Augmenter significativement la taille de la police */
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* Style pour les valeurs des capteurs */
+.sensor-value {
+    font-size: 28px; /* Augmenter la taille de la police */
+    font-weight: bold;
+    color: #555555;
+    margin-top: 10px;
+}
+
+/* Style pour l'erreur */
+.error-message {
+    color: red;
+    font-size: 22px; /* Augmenter la taille de la police */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Styles additionnels pour le corps du document */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s; /* Ajout de transition pour un effet plus fluide */
+}
+
+/* Responsive design pour les petits écrans */
+@media (max-width: 768px) {
+    .gauge-div {
+        width: 100%; /* Largeur complète sur les petits écrans */
+        margin: 10px 0;
+        min-width: 100%; /* Assurer que les jauges prennent toute la largeur */
+        height: auto; /* Permettre à la hauteur de s'ajuster automatiquement */
+    }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #ffffff;
+    }
+
+    .gauge-container {
+        background-color: #1e1e1e;
+    }
+
+    .gauge-div {
+        background-color: #2c2c2c;
+        color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .gauge-title {
+        color: #ffffff;
+    }
+
+    .sensor-value {
+        color: #cccccc;
+    }
+
+    .error-message {
+        color: #ff6b6b;
+    }
+}
